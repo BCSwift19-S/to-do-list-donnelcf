@@ -88,13 +88,18 @@
                                 <action selector="cancelPressed:" destination="7W3-Qn-Icy" id="Rql-PB-k4J"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="i8v-OY-nyH"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="i8v-OY-nyH">
+                            <connections>
+                                <segue destination="9yK-5F-ewA" kind="unwind" identifier="UnwindFromSave" unwindAction="unwindFromDetailViewControllerWithSegue:" id="a6x-bt-AKb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="toDoField" destination="PGb-Ox-0R0" id="sBZ-o9-0CU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RU5-uP-V6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="9yK-5F-ewA" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2855" y="134"/>
         </scene>
