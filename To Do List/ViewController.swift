@@ -14,14 +14,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var editBarButton: UIBarButtonItem!
     @IBOutlet weak var addBarButton: UIBarButtonItem!
     
-    var toDoArray = ["Learn Swift", "Build Apps", "Change the World!"]
-    var toDoNotesArray = ["I should do all of the exercises at the end of the chapters before the exams!", "Take my ideas to the school's venture competition and win the big check!", "Focus apps on empowerment for all, with a special bonus for users who are kind."]
+    var defaultData = UserDefaults.standard
+    var toDoArray = [String]()
+    var toDoNotesArray = [String]()
+//    var toDoArray = ["Learn Swift", "Build Apps", "Change the World!"]
+//    var toDoNotesArray = ["I should do all of the exercises at the end of the chapters before the exams!", "Take my ideas to the school's venture competition and win the big check!", "Focus apps on empowerment for all, with a special bonus for users who are kind."]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+        toDoArray = defaultData.stringArray(forKey: "toDoArray") ?? [String]()
+        toDoNotesArray = defaultData.stringArray(forKey: "toDoNotesArray") ?? [String]()
+        
+    }
+    
+    func saveDefaultsData() {
+        defaultData.set(toDoArray, forKey: "toDoArray")
+        defaultData.set(toDoNotesArray, forKey:"toDoNotesArray")
     }
     
     //when user selects item to edit from main view controller, set destination to DetailViewController, find the index of the selected row, then pull the corresponding toDoItem and toDoNote from the arrays
@@ -50,6 +61,8 @@ class ViewController: UIViewController {
             toDoNotesArray.append(sourceViewController.toDoNotes!)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
+        
+        saveDefaultsData()
     }
     //when the user selects the Edit button in the navigation bar on the main view controller
     @IBAction func editBarButtonPressed(_ sender: UIBarButtonItem) {
@@ -85,6 +98,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             toDoArray.remove(at:indexPath.row)
             toDoNotesArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            saveDefaultsData()
         }
     }
     
@@ -95,5 +109,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let notesToMove = toDoNotesArray[sourceIndexPath.row]
         toDoNotesArray.remove(at: sourceIndexPath.row)
         toDoNotesArray.insert(notesToMove, at: destinationIndexPath.row)
+        saveDefaultsData()
     }
 }
